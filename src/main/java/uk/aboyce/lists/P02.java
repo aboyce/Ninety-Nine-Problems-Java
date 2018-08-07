@@ -8,7 +8,6 @@ import java.util.NoSuchElementException;
 public class P02 {
 
     public static <T> T secondLast (List<T> list) {
-
         // Throw if the collection is empty or only contains a single element.
         if ((list == Collections.EMPTY_LIST) || (list.size() == 1)) {
             throw new NoSuchElementException();
