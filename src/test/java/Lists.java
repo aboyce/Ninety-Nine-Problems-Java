@@ -10,6 +10,8 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -80,14 +82,14 @@ public class Lists {
     @Test
     public void p07_shouldFlattenAListOfList() throws Exception {
         List<String> flatten = P07.flatten(asList("a", asList("b", asList("c", "d")), "e"), String.class);
-        //assertThat(flatten, hasSize(5));
+        assertThat(flatten, hasSize(5));
         assertThat(flatten, hasItems("a", "b", "c", "d", "e"));
     }
 
     @Test
     public void p07_shouldFlattenDeepNestedLists() throws Exception {
         List<String> flatten = P07.flatten(asList("a", asList("b", asList("c", asList("d", "e", asList("f", "g"))), "h")), String.class);
-        //assertThat(flatten, hasSize(8));
+        assertThat(flatten, hasSize(8));
         assertThat(flatten, hasItems("a", "b", "c", "d", "e", "f", "g", "h"));
     }
 
@@ -100,7 +102,22 @@ public class Lists {
     @Test
     public void p07_shouldReturnSameListWhenListHasNoNestedList() throws Exception {
         List<String> flatten = P07.flatten(asList("a", "b", "c", "d", "e"), String.class);
-        //assertThat(flatten, hasSize(5));
+        assertThat(flatten, hasSize(5));
         assertThat(flatten, hasItems("a", "b", "c", "d", "e"));
+    }
+
+    // P08
+    @Test
+    public void p08_shouldRemoveConsecutiveDuplicatesInAList() throws Exception {
+        List<String> compressedList = P08.compress(asList("a", "a", "a", "a", "b", "c", "c", "d", "e", "e", "e", "e"));
+        assertThat(compressedList, hasSize(5));
+        assertThat(compressedList, contains("a", "b", "c","d", "e"));
+    }
+
+    @Test
+    public void p08_shouldNotRemoveNonConsecutiveSimilarElementsFromAList() throws Exception {
+        List<String> compressedList = P08.compress(asList("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e"));
+        assertThat(compressedList, hasSize(6));
+        assertThat(compressedList, contains("a", "b", "c","a", "d", "e"));
     }
 }
